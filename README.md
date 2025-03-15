@@ -24,6 +24,8 @@
 
 - [Hack Together: The Microsoft Data + AI Kenya Hack](https://blog.fabric.microsoft.com/en/blog/hack-together-the-microsoft-data-ai-kenya-hack?ft=All)
 
+- [Hackathon Documentation](https://microsoft.github.io/Data-AI-Kenya-Hack/)
+
 
 ### Events
 -----
@@ -36,6 +38,5 @@ April 1st @ 7 PM East African Time: Building AI Agents using Azure AI Agent Serv
 April 3rd @ 7 PM East African Time: Wrap up – How to Submit your hack & Next steps
 ```
 
-- 
 
 
