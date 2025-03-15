@@ -1,6 +1,5 @@
 # MediTree
 
-
 ---
 
 ### **Key Sections**
@@ -15,4 +14,14 @@
 9. **Contact**: Provides contact information for questions or feedback.
 
 ---
+
+![alt text](Microsoft-Data-AI-Hackathon-Timeline-1024x576.png)
+**MS - Data AI Hack Roadmap**
+
+### Resources
+
+- [Hack Together: The Microsoft Data + AI Kenya Hack](https://blog.fabric.microsoft.com/en/blog/hack-together-the-microsoft-data-ai-kenya-hack?ft=All)
+
+- 
+
 
