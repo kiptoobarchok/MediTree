@@ -37,6 +37,26 @@ March 27th @ 7 PM East African Time: Building high scale RAG Applications with t
 April 1st @ 7 PM East African Time: Building AI Agents using Azure AI Agent Service
 April 3rd @ 7 PM East African Time: Wrap up – How to Submit your hack & Next steps
 ```
+-----
 
-
+#### Folder Structure
+```
+Meditree/
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── README.md
+├── frontend/
+│   ├── (Tailwind/css)
+│   └── README.md
+├── ai-models/
+│   ├── image_recognition/
+│   ├── language_model/
+│   └── README.md
+├── Mock data/
+│   ├── plant_data.csv
+│   └── weather_data.csv
+├── README.md
+└── demo-video.mp4
+```
 
