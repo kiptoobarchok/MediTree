@@ -18,9 +18,23 @@
 ![alt text](Microsoft-Data-AI-Hackathon-Timeline-1024x576.png)
 **MS - Data AI Hack Roadmap**
 
+---
+
 ### Resources
 
 - [Hack Together: The Microsoft Data + AI Kenya Hack](https://blog.fabric.microsoft.com/en/blog/hack-together-the-microsoft-data-ai-kenya-hack?ft=All)
+
+
+### Events
+-----
+```
+March 18th @ 7 PM East African Time: Ready, Set, Hack: and do more with Azure AI and Microsoft Fabric
+March 20th @ 7 PM East African Time: A tidy introduction to Microsoft Fabric
+March 25th @ 7 PM East African Time: Building Scalable Data Solutions with Microsoft Fabric’s Data Warehouse
+March 27th @ 7 PM East African Time: Building high scale RAG Applications with the Eventhouse in Microsoft Fabric
+April 1st @ 7 PM East African Time: Building AI Agents using Azure AI Agent Service
+April 3rd @ 7 PM East African Time: Wrap up – How to Submit your hack & Next steps
+```
 
 - 
 
