@@ -2,9 +2,10 @@
 
 ---
 
-_Sustainable Identification and Research of Medicinal Trees for Healthcare and Conservation_ :hearbeat
+_Sustainable Identification and Research of Medicinal Trees for Healthcare and Conservation_
 
-Resources
+---
+## Resources
 
 
 ![alt text](Microsoft-Data-AI-Hackathon-Timeline-1024x576.png)
