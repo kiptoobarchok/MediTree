@@ -128,13 +128,11 @@ Build partnerships to enhance user experience.
 
 ```
 
-
-
 ----
 
 ## Techstack
 - **Backend**: FastAPI, MongoDB, Langchain
-- **Frontend**: Tailwind CSS, JS
+- **Frontend**: html/css , Jinja2
 - **AI**: AZURE AI Vision
 - **Deployment**: **
 
