@@ -96,7 +96,10 @@ Meditree/
         - Tree planting challenges, leaderboard, community goals
 7. **Tree adoption and Donation**
 8. **Personalized Planting calendar and reminders intergration**
-9. **Educational content and quizzess**: tree encyclopedia, DIY guides(ie, composting, mulching)
+9. **Educational content and quizzess**: 
+
+`tree encyclopedia, DIY guides(ie, composting, mulching)`
+
 10. **Tree Health Monitoring with IoT**:
 
             - soil sensors: monitor soil moisture, pH, nutrient
