@@ -86,7 +86,7 @@ Meditree/
 - **Tree recommendations and Real-time weather intergration**:
 ```
     - Recommend trees to plant based on location and current season/weather conditions and suitable periods of the year to plant.
-    - _Weather-Based_ recommendations(ie, activities ie pruning)
+    - Weather-Based recommendations(ie, activities ie pruning)
 ``` 
 
 - **Interactive Chatbot**: Ask questions and get AI-powered answers using AZURE OpenAI service
@@ -95,9 +95,9 @@ Meditree/
 - **Tree marketplace**: 
 ```
 Create a platform for users to buy and sell trees or gardening supplies.
-    - _Tree Listings_: Allow nurseries or individuals to list trees for sale.
-    - _Gardening Supplies_: Offer a marketplace for tools, seeds, and fertilizers.
-    - _User Reviews_: Let users review and rate sellers.
+    - Tree Listings: Allow nurseries or individuals to list trees for sale.
+    - Gardening Supplies: Offer a marketplace for tools, seeds, and fertilizers.
+    - User Reviews: Let users review and rate sellers.
 ```
                     
 
