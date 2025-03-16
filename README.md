@@ -26,6 +26,16 @@
 
 - [Hackathon Documentation](https://microsoft.github.io/Data-AI-Kenya-Hack/)
 
+- [Access to AZURE OpenAI](https://microsoft.github.io/Data-AI-Kenya-Hack/AI_ACCESS.html)
+
+
+#### Model Details
+| Mdel    | Model Name | Docs  | *(with Python) |
+| -------- | ------- |---------| --------------
+| GPT-4o | gtp-4o | [Docs](https://aka.ms/fabric-hack24-python-docs-gtp4) |
+| GPT-4o-mini | gpt-4o-mini    | [Docs](https://aka.ms/fabric-hack24-python-docs-gtp4)|
+| Embeddings    |  text-embedding-ada-002   | [Embeddings Docs](https://aka.ms/fabric-hack24-python-docs-embeddings)|
+| DALL-E 3   | dall-e-3 | [DALL-E Docs](https://aka.ms/fabric-hack24-python-docs-dalle) | [Azure OpenAI DALL-E - Python](https://aka.ms/fabric-hack24-python-eg-dalle) | 
 
 ### Events
 -----
@@ -78,7 +88,7 @@ Meditree/
                 - _User Reviews_: Let users review and rate sellers.
 
 ---
-#### Future additions
+#### Stretch Goals
 
 1. **Carbon Footprint Tracker**: Track environmental impact of tree planting efforts
 2. **Articles/Blogs**: On Trees/Forests (Uses, myths,ongoing afforestation, reafforestation efforts)
@@ -112,8 +122,8 @@ Meditree/
 ## Techstack
 - **Backend**: FastAPI, MongoDB, Langchain
 - **Frontend**: Tailwind CSS, JS
-- **AI**: Pre-trained image recognition model
+- **AI**: AZURE AI Vision
 - **Deployment**: **
 
 -----
-
+## Access to Azure OpenAI
