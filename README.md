@@ -98,6 +98,19 @@ Meditree/
 8. **Personalized Planting calendar and reminders intergration**
 9. **Educational content and quizzess**: tree encyclopedia, DIY guides(ie, composting, mulching)
 10. **Tree Health Monitoring with IoT**:
-        - soil sensors: monitor soil moisture, pH, nutrient
-        - Smart watering
-        - health dashboard
+
+            - soil sensors: monitor soil moisture, pH, nutrient
+            - Smart watering
+            - health dashboard
+
+
+----
+
+## Techstack
+- **Backend**: FastAPI, MongoDB, Langchain
+- **Frontend**: Tailwind CSS, JS
+- **AI**: Pre-trained image recognition model
+- **Deployment**: **
+
+--
+
