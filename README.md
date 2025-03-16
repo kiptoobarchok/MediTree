@@ -13,8 +13,6 @@ _Sustainable Identification and Research of Medicinal Trees for Healthcare and C
 
 ---
 
-### Resources
-
 - [Hack Together: The Microsoft Data + AI Kenya Hack](https://blog.fabric.microsoft.com/en/blog/hack-together-the-microsoft-data-ai-kenya-hack?ft=All)
 
 - [Hackathon Documentation](https://microsoft.github.io/Data-AI-Kenya-Hack/)
