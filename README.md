@@ -83,7 +83,8 @@ Meditree/
 - **Interactive Chatbot**: Ask questions and get AI-powered answers using AZURE OpenAI service
 
 ---
-- **Tree marketplace**:  Create a platform for users to buy and sell trees or gardening supplies.
+- **Tree marketplace**: 
+                    Create a platform for users to buy and sell trees or gardening supplies.
                         - _Tree Listings_: Allow nurseries or individuals to list trees for sale.
                         - _Gardening Supplies_: Offer a marketplace for tools, seeds, and fertilizers.
                         - _User Reviews_: Let users review and rate sellers.
