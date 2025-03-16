@@ -77,7 +77,8 @@ Meditree/
 
 - **Seedling Identification**: Upload an image of a Seedling , and MediTree AI will identify the plant using AZURE Vision.
 - **Care Advice**: Get personalized care instructions, optimal conditions, and uses for the identified plant. Also give advice based on location.
-- **Tree recommendations and Real-time weather intergration**: Recommend trees to plant based on location and current season/weather conditions and suitable periods of the year to plant.
+- **Tree recommendations and Real-time weather intergration**: 
+            Recommend trees to plant based on location and current season/weather conditions and suitable periods of the year to plant.
                 - _Weather-Based_ recommendations(ie, activities ie pruning)
 - **Interactive Chatbot**: Ask questions and get AI-powered answers using AZURE OpenAI service
 
