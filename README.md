@@ -126,4 +126,3 @@ Meditree/
 - **Deployment**: **
 
 -----
-## Access to Azure OpenAI
