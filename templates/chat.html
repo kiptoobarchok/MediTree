@@ -1,0 +1,12 @@
+<!-- templates/chat.html -->
+<div id="chat-container">
+    {% for msg in chat_history %}
+    <div class="message {{ 'user' if msg.sender == 'user' else 'bot' }}">
+        {{ msg.text }}
+    </div>
+    {% endfor %}
+    <form hx-post="/chat/{{ session_id }}" hx-swap="beforeend" hx-target="#chat-container">
+        <input type="text" name="message" placeholder="Ask about tree care...">
+        <button type="submit">Send</button>
+    </form>
+</div>

@@ -1,0 +1,21 @@
+<!-- templates/marketplace/listing.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        {% for listing in listings %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ listing.images[0] }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="text-success">${{ listing.price }}</p>
+                    <a href="/listings/{{ listing._id }}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
