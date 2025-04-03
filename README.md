@@ -66,9 +66,9 @@ Meditree/
 
 ## MVP Features
 
-- **Seedling Identification**: 
+- **Plant Image Generation**: 
 ```
-    - Upload an image of a Seedling, and MediTree AI will identify the plant using AZURE Vision.
+    - Use dall-e-3 to generate pictures of the plant as described by the users
 ```
 - **Care Advice**: 
 ```
@@ -131,9 +131,9 @@ Build partnerships to enhance user experience.
 ----
 
 ## Techstack
-- **Backend**: FastAPI, MongoDB, Langchain
+- **Backend**: Flask, SQlite3, Langchain
 - **Frontend**: html/css , Jinja2
-- **AI**: AZURE AI Vision
+- **AI**: AZURE OPENAI 
 - **Deployment**: **
 
 -----
