@@ -1,112 +1,138 @@
-import openai
+from openai import AzureOpenAI
+from datetime import datetime
 from flask import current_app
 from application.models import ChatSession, ChatMessage, db
-from datetime import datetime
+import logging
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 class PlantCareChatbot:
     def __init__(self):
         self.system_prompt = """
-        You are a knowledgeable plant care assistant named arborai. Your role is to provide:
-        1. Personalized care instructions for plants based on user queries
-        2. Optimal growing conditions (light, water, soil, temperature)
-        3. Seasonal care tips and reminders
-        4. Recommendations for plants based on location and current weather
-        5. Advice on planting times and techniques
-        6. Troubleshooting for common plant problems
+        You are Arborai, a knowledgeable plant care assistant. Provide:
+        1. Personalized care instructions
+        2. Optimal growing conditions
+        3. Seasonal care tips
+        4. Troubleshooting advice
         
-        Be friendly, professional, and provide detailed, accurate information. 
-        If you're unsure about something, say so rather than guessing.
+        Format responses with clear headings and bullet points.
         """
+        self.logger = logging.getLogger(__name__)
+        self._client = None
+        self._initialize_client()
 
-    def initialize_chat(self, user_id):
-        session = ChatSession(user_id=user_id, title="New Chat")
-        db.session.add(session)
-        db.session.commit()
-        return session.id
-
-    def get_response(self, session_id, user_message):
-        # Get the chat session
-        session = ChatSession.query.get(session_id)
-        if not session:
-            return None, "Session not found"
-
-        # Save user message
-        user_msg = ChatMessage(
-            session_id=session_id,
-            content=user_message,
-            is_user=True
-        )
-        db.session.add(user_msg)
-        
-        # Get previous messages for context
-        previous_messages = ChatMessage.query.filter_by(session_id=session_id)\
-            .order_by(ChatMessage.created_at.asc()).all()
-        
-        # Format messages for OpenAI
-        messages = [{"role": "system", "content": self.system_prompt}]
-        for msg in previous_messages:
-            role = "user" if msg.is_user else "assistant"
-            messages.append({"role": role, "content": msg.content})
-        
-        # Add the new user message
-        messages.append({"role": "user", "content": user_message})
-        
-        try:
-            # Configure Azure OpenAI
-            openai.api_type = "azure"
-            openai.api_key = current_app.config['AZURE_OPENAI_API_KEY']
-            openai.api_base = current_app.config['AZURE_OPENAI_ENDPOINT']
-            openai.api_version = current_app.config['AZURE_OPENAI_API_VERSION']
+    def _initialize_client(self):
+        """Initialize the Azure OpenAI client"""
+        if not current_app:
+            return
             
-            response = openai.ChatCompletion.create(
-                engine=current_app.config['AZURE_OPENAI_CHAT_DEPLOYMENT_NAME'],
+        required_configs = [
+            'AZURE_OPENAI_API_KEY',
+            'AZURE_OPENAI_ENDPOINT',
+            'AZURE_OPENAI_CHAT_DEPLOYMENT'
+        ]
+        
+        if all(current_app.config.get(key) for key in required_configs):
+            self._client = AzureOpenAI(
+                api_key=current_app.config['AZURE_OPENAI_API_KEY'],
+                api_version=current_app.config.get('AZURE_OPENAI_API_VERSION', '2023-05-15'),
+                azure_endpoint=current_app.config['AZURE_OPENAI_ENDPOINT']
+            )
+        else:
+            self.logger.warning("Azure OpenAI client not initialized due to missing configs")
+
+    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
+    def _call_azure_openai(self, messages):
+        """Make API call with retry logic"""
+        if not self._client:
+            raise ValueError("Azure OpenAI client not initialized")
+
+        try:
+            response = self._client.chat.completions.create(
+                model=current_app.config['AZURE_OPENAI_CHAT_DEPLOYMENT'],
                 messages=messages,
                 temperature=0.7,
                 max_tokens=800
             )
+            return response
+        except Exception as e:
+            self.logger.error(f"Azure API call failed: {str(e)}")
+            raise ValueError("Failed to communicate with plant care assistant")
+
+    def initialize_chat(self, user_id):
+        """Create new chat session"""
+        try:
+            session = ChatSession(
+                user_id=user_id,
+                title="New Chat",
+                created_at=datetime.utcnow()
+            )
+            db.session.add(session)
+            db.session.commit()
+            return session.id
+        except Exception as e:
+            self.logger.error(f"Session creation failed: {str(e)}")
+            raise ValueError("Could not start chat session")
+
+    def get_response(self, session_id, user_message):
+        """Get AI response for user message"""
+        try:
+            # Save user message
+            user_msg = ChatMessage(
+                session_id=session_id,
+                content=user_message,
+                is_user=True,
+                created_at=datetime.utcnow()
+            )
+            db.session.add(user_msg)
+
+            # Prepare messages
+            messages = [{"role": "system", "content": self.system_prompt}]
+            history = ChatMessage.query.filter_by(session_id=session_id)\
+                .order_by(ChatMessage.created_at.desc())\
+                .limit(5)\
+                .all()
             
-            bot_response = response.choices[0].message['content']
-            
+            for msg in reversed(history):
+                messages.append({
+                    "role": "user" if msg.is_user else "assistant",
+                    "content": msg.content
+                })
+
+            # Get AI response
+            if self._client:
+                response = self._call_azure_openai(messages)
+                bot_response = response.choices[0].message.content
+            else:
+                bot_response = self._get_fallback_response(user_message)
+
             # Save bot response
             bot_msg = ChatMessage(
                 session_id=session_id,
                 content=bot_response,
-                is_user=False
+                is_user=False,
+                created_at=datetime.utcnow()
             )
             db.session.add(bot_msg)
             db.session.commit()
-            
-            return bot_response, None
-        except Exception as e:
-            return None, str(e)
 
-    def get_plant_recommendation(self, location, season):
-        prompt = f"""
-        Based on the following location and season, recommend suitable plants or trees to grow:
-        - Location: {location}
-        - Season: {season}
-        
-        Provide:
-        1. A list of 5-8 suitable plants/trees
-        2. Brief description of each
-        3. Ideal planting time
-        4. Basic care requirements
-        5. Any special considerations for the location
-        
-        Format the response in clear, bullet points.
-        """
-        
-        try:
-            response = openai.ChatCompletion.create(
-                engine=current_app.config['AZURE_OPENAI_CHAT_DEPLOYMENT_NAME'],
-                messages=[
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.7,
-                max_tokens=1000
-            )
-            
-            return response.choices[0].message['content'], None
+            return bot_response, None
+
         except Exception as e:
-            return None, str(e)
+            self.logger.error(f"Error in get_response: {str(e)}")
+            db.session.rollback()
+            return self._get_fallback_response(user_message), str(e)
+
+    def _get_fallback_response(self, user_message):
+        """Provide fallback when Azure is unavailable"""
+        fallbacks = [
+            "I'm currently unable to access my full knowledge base. As a general tip: "
+            "most plants prefer consistent watering when the top inch of soil is dry.",
+            
+            "My plant care resources are temporarily unavailable. Remember that "
+            "overwatering is the most common cause of houseplant problems.",
+            
+            "I can't access detailed information right now. A good practice is to "
+            "research your specific plant's native environment for care clues."
+        ]
+        import random
+        return random.choice(fallbacks)

@@ -12,14 +12,14 @@ class Config:
     AZURE_OPENAI_API_KEY = os.environ.get('AZURE_OPENAI_API_KEY')
     AZURE_OPENAI_ENDPOINT = os.environ.get('AZURE_OPENAI_ENDPOINT')
     AZURE_OPENAI_API_VERSION = os.environ.get('AZURE_OPENAI_API_VERSION', '2024-02-01')
-    AZURE_OPENAI_CHAT_DEPLOYMENT_NAME = os.environ.get('AZURE_OPENAI_CHAT_DEPLOYMENT_NAME', 'gpt-4o-kenya-hack')
+    AZURE_OPENAI_CHAT_DEPLOYMENT = os.environ.get('AZURE_OPENAI_CHAT_DEPLOYMENT', 'gpt-4o-kenya-hack')
     
     # # Weather API settings
     # WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
     # WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
     
     # Marketplace settings
-    UPLOAD_FOLDER = 'app/static/uploads'
+    UPLOAD_FOLDER = 'application/static/uploads'
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     
     @staticmethod
