@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Plant Care Chat - PlantCare Pro{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    .chat-container {
+        height: 60vh;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    .message-user {
+        background-color: #d1e7dd;
+        border-radius: 15px 15px 0 15px;
+        padding: 10px 15px;
+        margin-left: auto;
+        max-width: 70%;
+    }
+    .message-bot {
+        background-color: #ffffff;
+        border-radius: 15px 15px 15px 0;
+        padding: 10px 15px;
+        max-width: 70%;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+    .message-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    #message-input {
+        border-radius: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-robot"></i> ArborAI</h2>
+            <p class="lead">Ask about plant care, troubleshooting, and more</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('plantcare.new_chat_session') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-plus"></i> New Chat
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Chat Session</span>
+                        <small>{{ session.title }}</small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chat-container" id="chat-container">
+                        {% for message in messages %}
+                        <div class="mb-3 {% if message.is_user %}text-end{% else %}text-start{% endif %}">
+                            <div class="{% if message.is_user %}message-user{% else %}message-bot{% endif %}">
+                                {{ message.content }}
+                            </div>
+                            <div class="message-time mt-1">
+                                {{ message.created_at.strftime('%b %d, %H:%M') }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <form id="chat-form" method="POST">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="message" name="message" 
+                                   placeholder="Ask about plant care..." required>
+                            <button class="btn btn-success" type="submit">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatContainer = document.getElementById('chat-container');
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message');
+    
+    // Scroll to bottom of chat
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        
+        if (message) {
+            // Add user message to chat
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'mb-3 text-end';
+            userMessageDiv.innerHTML = `
+                <div class="message-user">
+                    ${message}
+                </div>
+                <div class="message-time mt-1">
+                    ${timeString}
+                </div>
+            `;
+            chatContainer.appendChild(userMessageDiv);
+            
+            // Clear input
+            messageInput.value = '';
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Send to server and get response
+            fetch("{{ url_for('plantcare.send_chat_message') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    session_id: {{ session.id }},
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response) {
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'mb-3 text-start';
+                    botMessageDiv.innerHTML = `
+                        <div class="message-bot">
+                            ${data.response}
+                        </div>
+                        <div class="message-time mt-1">
+                            ${new Date().toLocaleString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })}
+                        </div>
+                    `;
+                    chatContainer.appendChild(botMessageDiv);
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending message');
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

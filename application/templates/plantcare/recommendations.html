@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Plant Recommendations - PlantCare Pro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-seedling"></i> Plant Recommendations</h2>
+            <p class="lead">Discover the best plants for your location and season</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-search-location"></i> Find Plants</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('plantcare.plant_recommendations') }}">
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Your Location</label>
+                            <input type="text" class="form-control" id="location" name="location" 
+                                   value="{{ location if location else '' }}" required
+                                   placeholder="City, State or ZIP Code">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-search"></i> Get Recommendations
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            {% if weather_data %}
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-cloud-sun"></i> Current Weather</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4 text-center">
+                            <h1 class="display-4">{{ weather_data.temp_c }}°C</h1>
+                        </div>
+                        <div class="col-8">
+                            <p class="mb-1"><strong>{{ weather_data.location }}</strong></p>
+                            <p class="mb-1">{{ weather_data.condition }}</p>
+                            <p class="mb-1">Humidity: {{ weather_data.humidity }}%</p>
+                            <p class="mb-0">Wind: {{ weather_data.wind_kph }} km/h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            {% if error %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            {% if recommendations %}
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i> Recommended Plants for {{ location }}
+                        <span class="badge bg-light text-dark ms-2">{{ season }}</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="plantsAccordion">
+                        {% for plant in recommendations.split('\n\n') %}
+                        {% if plant.strip() %}
+                        <div class="accordion-item mb-2">
+                            <h3 class="accordion-header" id="heading{{ loop.index }}">
+                                <button class="accordion-button collapsed" type="button" 
+                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}"
+                                        aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                    <i class="fas fa-leaf me-2"></i> 
+                                    {{ plant.split('\n')[0].replace('*', '').strip() }}
+                                </button>
+                            </h3>
+                            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse"
+                                 aria-labelledby="heading{{ loop.index }}" data-bs-parent="#plantsAccordion">
+                                <div class="accordion-body">
+                                    <ul class="list-unstyled">
+                                        {% for line in plant.split('\n')[1:] %}
+                                        {% if line.strip() %}
+                                        <li class="mb-1">
+                                            <i class="fas fa-angle-right text-success me-2"></i>
+                                            {{ line.replace('•', '').replace('-', '').strip() }}
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-seedling fa-4x text-muted mb-4"></i>
+                    <h5>No recommendations yet</h5>
+                    <p class="text-muted">Enter your location to get personalized plant suggestions</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus location input if empty
+    const locationInput = document.getElementById('location');
+    if (locationInput && !locationInput.value) {
+        locationInput.focus();
+    }
+    
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %}

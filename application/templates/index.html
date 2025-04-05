@@ -1,0 +1,40 @@
+<!-- application/templates/index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to PlantCare Pro!</h1>
+    <p class="lead">Your complete solution for plant care and gardening needs.</p>
+    <hr class="my-4">
+    <p>Get personalized plant care advice, browse our marketplace, and connect with other plant lovers.</p>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Plant Care Assistant</h5>
+                    <p class="card-text">Get AI-powered care instructions for your plants.</p>
+                    <a href="{{ url_for('plantcare.plantcare_home') }}" class="btn btn-success">Try Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Marketplace</h5>
+                    <p class="card-text">Buy and sell plants and gardening supplies.</p>
+                    <a href="{{ url_for('marketplace.marketplace') }}" class="btn btn-success">Browse</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Plant Recommendations</h5>
+                    <p class="card-text">Find perfect plants for your location.</p>
+                    <a href="{{ url_for('plantcare.plant_recommendations') }}" class="btn btn-success">Discover</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Gardening Tips - PlantCare Pro{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-cloud-sun-rain"></i> Weather Gardening Tips</h2>
+            <p class="lead">Get customized advice based on your local weather conditions</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Check Your Location</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('plantcare.weather_tips') }}">
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Enter Your Location</label>
+                            <input type="text" class="form-control" id="location" name="location" 
+                                   value="{{ location if location else '' }}" required
+                                   placeholder="City, State or ZIP Code">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-cloud-sun"></i> Get Weather Tips
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            {% if weather_data %}
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle"></i> Current Weather Analysis</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center mb-3">
+                        <div class="col-4 text-center">
+                            <img src="{{ url_for('static', filename='images/weather/' + weather_data.condition|lower + '.png') }}" 
+                                 alt="{{ weather_data.condition }}" 
+                                 style="width: 80px; height: 80px;">
+                            <h3 class="mt-2">{{ weather_data.temp_c }}°C</h3>
+                        </div>
+                        <div class="col-8">
+                            <h5>{{ weather_data.location }}</h5>
+                            <p class="mb-1"><strong>{{ weather_data.condition }}</strong></p>
+                            <p class="mb-1">Humidity: {{ weather_data.humidity }}%</p>
+                            <p class="mb-1">Wind: {{ weather_data.wind_kph }} km/h</p>
+                            <p class="mb-0">Last Updated: {{ weather_data.last_updated }}</p>
+                        </div>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb"></i> <strong>Season:</strong> {{ season }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            {% if error %}
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            {% if tips %}
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-clipboard-list"></i> Gardening Recommendations</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for tip in tips %}
+                        <div class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">
+                                    <i class="fas fa-{{ 'sun' if 'sun' in tip|lower else 
+                                                     'tint' if 'water' in tip|lower else 
+                                                     'wind' if 'wind' in tip|lower else 
+                                                     'snowflake' if 'cold' in tip|lower else 
+                                                     'seedling' }} me-2"></i>
+                                    {{ tip }}
+                                </h6>
+                            </div>
+                            <small class="text-muted">
+                                {% if 'water' in tip|lower %}
+                                <span class="badge bg-primary">Watering</span>
+                                {% elif 'sun' in tip|lower %}
+                                <span class="badge bg-warning text-dark">Sunlight</span>
+                                {% elif 'wind' in tip|lower %}
+                                <span class="badge bg-info text-dark">Protection</span>
+                                {% elif 'cold' in tip|lower or 'frost' in tip|lower %}
+                                <span class="badge bg-secondary">Temperature</span>
+                                {% else %}
+                                <span class="badge bg-success">General</span>
+                                {% endif %}
+                            </small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">
+                        <i class="fas fa-sync-alt"></i> Recommendations update with weather changes
+                    </small>
+                </div>
+            </div>
+            {% else %}
+            <div class="card h-100">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-cloud fa-4x text-muted mb-4"></i>
+                    <h5>No weather tips yet</h5>
+                    <p class="text-muted">Enter your location to get personalized gardening advice</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if weather_data %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-calendar-day"></i> Suggested Gardening Activities</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-cut fa-3x text-success mb-3"></i>
+                                    <h5>Pruning</h5>
+                                    <p class="card-text">
+                                        {% if season == 'Spring' %}
+                                        Ideal time for light pruning of most plants
+                                        {% elif season == 'Summer' %}
+                                        Focus on deadheading flowers
+                                        {% elif season == 'Fall' %}
+                                        Limit pruning to avoid new growth
+                                        {% else %}
+                                        Only prune dead or damaged branches
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-tint fa-3x text-success mb-3"></i>
+                                    <h5>Watering</h5>
+                                    <p class="card-text">
+                                        {% if weather_data.temp_c > 25 %}
+                                        Water early morning or late evening
+                                        {% elif weather_data.temp_c < 10 %}
+                                        Reduce watering frequency
+                                        {% else %}
+                                        Maintain regular watering schedule
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-success">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-spa fa-3x text-success mb-3"></i>
+                                    <h5>Planting</h5>
+                                    <p class="card-text">
+                                        {% if season == 'Spring' %}
+                                        Best time for new plantings
+                                        {% elif season == 'Fall' %}
+                                        Good for trees and shrubs
+                                        {% else %}
+                                        Container planting recommended
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus location input if empty
+    const locationInput = document.getElementById('location');
+    if (locationInput && !locationInput.value) {
+        locationInput.focus();
+    }
+    
+    // Add animation to weather cards
+    const weatherCards = document.querySelectorAll('.list-group-item');
+    weatherCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = `all 0.3s ease ${index * 0.1}s`;
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100);
+    });
+});
+</script>
+{% endblock %}
