@@ -130,21 +130,23 @@ Build partnerships to enhance user experience.
 ## Installation
 
 1. **Clone the repository**
-   ```
-   git clone https://github.com/kiptoobarchok/MediTree
-   ```
+```
+$ git clone https://github.com/kiptoobarchok/MediTree
+$ cd MediTree
+
+```
 
 2. **Set up virtual environment**
 ```
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
+$ python -m venv venv
+$ source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate     # Windows
 ```
 
 3. **Install dependencies**
 ```
-pip freeze > requirements.txt # linux / windows copy the contents to .txt file
-pip install -r requirements.txt
+$ pip freeze > requirements.txt # linux / windows copy the contents to .txt file
+$ pip install -r requirements.txt
 ```
 
 4. **Configure environment**
@@ -161,7 +163,61 @@ WEATHER_API=your-open-weather-map-api
 ```
 python3
 >>> db.create_all()
->>>exit()
+>>> exit()
 ```
 
 
+6. Access the development server via browser engines
+
+```
+$ cd MediTree
+$ source venv/bin/activate
+$ python run.py
+$ 
+```
+
+----
+
+### Usage
+1. Register an account or login to an existing account
+2. Access ArborAI our plantcare assistant for advice
+3. Browse marketplace listings
+4. Add your own plants for sale
+5. Cet weather-based recommendations
+
+#### 📚 Documentation
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [Azure OpenAI API Docs](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
+- [Bootstrap 5 Docs](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+
+ --- 
+
+ ## 🤝 Contributing
+ 1. Fork the github repository
+ 2. Create your feature branch 
+ ```
+ git checkout -b feature/AmazingFeature
+ ```
+ 3. Commit your changes 
+ ```
+ git commit -m 'Add some AmazingFeature'
+ ```
+ 4. Push to the branch 
+ ```
+ git push origin feature/AmazingFeature
+ ```
+ 5. Open a pull request
+
+ ### 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+# MediTree Home
+
+![alt text](image.png)
+
+#### Contact
+
+- [KIPTOO CALEB](https://wa.me/+254702171495)
+- [MATHEW CHALO](https://wa.me/+254746269567)
+- [ZIPPORAH MORANGI](https://wa.me/+254701319766)
