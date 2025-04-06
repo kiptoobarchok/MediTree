@@ -10,11 +10,6 @@ _Sustainable Identification and Research of Medicinal Trees for Healthcare and C
 A web application that provides personalized plant care advice, a plant marketplace,weather-based gardening recommendations and more.
 
 ## Resources
-
-
-![alt text](Microsoft-Data-AI-Hackathon-Timeline-1024x576.png)
-**MS - Data AI Hack Roadmap**
-
 ---
 
 - [Hack Together: The Microsoft Data + AI Kenya Hack](https://blog.fabric.microsoft.com/en/blog/hack-together-the-microsoft-data-ai-kenya-hack?ft=All)
