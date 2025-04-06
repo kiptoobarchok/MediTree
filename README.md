@@ -64,7 +64,73 @@ MediTree/
 ├── config.py # Configuration
 └── run.py # Launch script
 ```
-
 ---
 
+##  🚀 Features
 
+### 🌱 AI Plant Care Assistant
+- Chatbot powered by Azure OpenAI (GPT-4)
+- Personalized care instructions
+- Troubleshooting advice
+- Optimal growing conditions
+
+### 🌦️ Weather-Based Recommendations
+- Location-specific plant suggestions
+- Seasonal care tips
+- Weather-appropriate gardening activities and reminders
+
+### 🛒 Plant Marketplace
+- Buy/sell plants and gardening supplies
+- User reviews and ratings
+- Seller profiles
+
+### 👤 User Management
+- Secure authentication
+- Personalized dashboards
+- Saved plant collections
+
+#### Stretch Goals and future additions
+
+1. **🌱 Carbon Footprint Tracker**: Track environmental impact of tree planting efforts
+```
+Tree Carbon Calculator: Estimate CO₂ sequestration based on species, age, and location
+
+User Impact Dashboard: Visualize lifetime environmental contributions
+
+Planting Goals: Set and track carbon offset targets
+
+Community Comparisons: Benchmark against local averages
+
+```
+2. **Articles/Blogs**: On Trees/Forests (Uses, myths,ongoing afforestation, reafforestation efforts)
+3. **Virtual green advocates events to engage the community**: Host live sessions with experts on topics like gardening/tree care
+4. **Eco-frriendly products**:
+```
+    - Recommend eco-friendly products , i.e; biodegradable pots, organic fertalizers
+    - Share tips on reducing waste, conserving water(green tips)
+```
+        
+5. **Intergration with local nurseries and organizations** : 
+Build partnerships to enhance user experience.
+```    
+*Features:*
+    -  Nursery Locator: Help users find local nurseries to buy trees or supplies.
+    - Volunteer Opportunities: Connect users with local tree-planting events or organizations.connect tree enthusiasts with seedling dealers.
+```
+                
+6. **Gamification and Social engagement**: 
+        - Tree planting challenges, leaderboard, community goals
+7. **Tree adoption and Donation**
+8. **Personalized Planting calendar and reminders intergration**
+9. **Educational content and quizzess**: 
+
+`tree encyclopedia, DIY guides(ie, composting, mulching)`
+
+10. **Tree Health Monitoring with IoT**:
+```
+    - soil sensors: monitor soil moisture, pH, nutrient
+    - Smart watering
+    - health dashboard
+
+```
+----
