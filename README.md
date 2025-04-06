@@ -130,6 +130,38 @@ Build partnerships to enhance user experience.
 ## Installation
 
 1. **Clone the repository**
-   ```bash
+   ```
    git clone https://github.com/kiptoobarchok/MediTree
    ```
+
+2. **Set up virtual environment**
+```
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+```
+
+3. **Install dependencies**
+```
+pip freeze > requirements.txt # linux / windows copy the contents to .txt file
+pip install -r requirements.txt
+```
+
+4. **Configure environment**
+Create `.env` file
+```
+SECRET_KEY=your-secret-key
+AZURE_OPENAI_API_KEY=your-azure-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_CHAT_DEPLOYMENT=your-deployment-name
+WEATHER_API=your-open-weather-map-api
+```
+
+5. initialize database
+```
+python3
+>>> db.create_all()
+>>>exit()
+```
+
+
