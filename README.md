@@ -74,7 +74,7 @@ MediTree/
 - Seller profiles
 
 ### 👤 User Management
-- Secure authentication
+- Secure authentication with hashed passwords
 - Personalized dashboards
 - Saved plant collections
 
@@ -125,3 +125,11 @@ Build partnerships to enhance user experience.
 
 ```
 ----
+
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/kiptoobarchok/MediTree
+   ```
