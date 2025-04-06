@@ -57,6 +57,7 @@ MediTree/
 - Personalized care instructions
 - Troubleshooting advice
 - Optimal growing conditions
+- Diagnose common tree diseases
 
 ### 🌦️ Weather-Based Recommendations
 - Location-specific plant suggestions
