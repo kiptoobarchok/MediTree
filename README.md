@@ -5,6 +5,7 @@
 _Sustainable Identification and Research of Medicinal Trees for Healthcare and Conservation_
 
 ---
+![alt text](99412e68-19ba-4691-948b-14e62a83d6b9.jpg)
 
 A web application that provides personalized plant care advice, a plant marketplace,weather-based gardening recommendations and more.
 
