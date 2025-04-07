@@ -9,6 +9,10 @@ _Sustainable Identification and Research of Medicinal Trees for Healthcare and C
 
 A web application that provides personalized plant care advice, a plant marketplace,weather-based gardening recommendations and more.
 
+## Workflow
+![alt text](image-1.png)
+
+
 ## Resources
 ---
 
