@@ -4,6 +4,7 @@ from flask import current_app
 from application.models import ChatSession, ChatMessage, db
 import logging
 from tenacity import retry, stop_after_attempt, wait_exponential
+import random
 
 class PlantCareChatbot:
     def __init__(self):
@@ -24,13 +25,13 @@ class PlantCareChatbot:
         """Initialize the Azure OpenAI client"""
         if not current_app:
             return
-            
+
         required_configs = [
             'AZURE_OPENAI_API_KEY',
             'AZURE_OPENAI_ENDPOINT',
             'AZURE_OPENAI_CHAT_DEPLOYMENT'
         ]
-        
+
         if all(current_app.config.get(key) for key in required_configs):
             self._client = AzureOpenAI(
                 api_key=current_app.config['AZURE_OPENAI_API_KEY'],
@@ -48,7 +49,7 @@ class PlantCareChatbot:
 
         try:
             response = self._client.chat.completions.create(
-                model=current_app.config['AZURE_OPENAI_CHAT_DEPLOYMENT'],
+                deployment_id=current_app.config['AZURE_OPENAI_CHAT_DEPLOYMENT'],
                 messages=messages,
                 temperature=0.7,
                 max_tokens=800
@@ -71,12 +72,12 @@ class PlantCareChatbot:
             return session.id
         except Exception as e:
             self.logger.error(f"Session creation failed: {str(e)}")
+            db.session.rollback()
             raise ValueError("Could not start chat session")
 
     def get_response(self, session_id, user_message):
         """Get AI response for user message"""
         try:
-            # Save user message
             user_msg = ChatMessage(
                 session_id=session_id,
                 content=user_message,
@@ -85,27 +86,21 @@ class PlantCareChatbot:
             )
             db.session.add(user_msg)
 
-            # Prepare messages
             messages = [{"role": "system", "content": self.system_prompt}]
-            history = ChatMessage.query.filter_by(session_id=session_id)\
-                .order_by(ChatMessage.created_at.desc())\
-                .limit(5)\
+            history = ChatMessage.query.filter_by(session_id=session_id) \
+                .order_by(ChatMessage.created_at.asc()) \
+                .limit(5) \
                 .all()
-            
-            for msg in reversed(history):
+
+            for msg in history:
                 messages.append({
                     "role": "user" if msg.is_user else "assistant",
                     "content": msg.content
                 })
 
-            # Get AI response
-            if self._client:
-                response = self._call_azure_openai(messages)
-                bot_response = response.choices[0].message.content
-            else:
-                bot_response = self._get_fallback_response(user_message)
+            response = self._call_azure_openai(messages)
+            bot_response = response.choices[0].message.content
 
-            # Save bot response
             bot_msg = ChatMessage(
                 session_id=session_id,
                 content=bot_response,
@@ -123,16 +118,10 @@ class PlantCareChatbot:
             return self._get_fallback_response(user_message), str(e)
 
     def _get_fallback_response(self, user_message):
-        """Provide fallback when Azure is unavailable"""
+        """Fallback response"""
         fallbacks = [
-            "I'm currently unable to access my full knowledge base. As a general tip: "
-            "most plants prefer consistent watering when the top inch of soil is dry.",
-            
-            "My plant care resources are temporarily unavailable. Remember that "
-            "overwatering is the most common cause of houseplant problems.",
-            
-            "I can't access detailed information right now. A good practice is to "
-            "research your specific plant's native environment for care clues."
+            "I'm currently unable to access my full knowledge base. A general tip: most plants prefer consistent watering when the top inch of soil is dry.",
+            "My plant care resources are temporarily unavailable. Remember that overwatering is the most common cause of houseplant problems.",
+            "I can't access detailed information right now. A good practice is to research your specific plant's native environment for care clues."
         ]
-        import random
         return random.choice(fallbacks)
