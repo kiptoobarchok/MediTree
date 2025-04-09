@@ -216,6 +216,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ![alt text](image.png)
 
+# Power BI Dashboard for Real-time Carbon tracking
+
+![alt text](431119102-d7a28322-ca5f-49de-8506-3845a4fe068c.png)
+[_Power Bi Dashboard_](https://app.fabric.microsoft.com/Redirect?action=OpenReport&appId=5546ad81-dcdd-465e-a60a-37b97d3122bb&reportObjectId=3d3a9923-d0d2-44c4-93f0-e888ce567fb3&ctid=dc5bc0de-2c0e-4ff9-a169-18326fbc11d7&reportPage=8cc03f57c1eab2c2f02b&pbi_source=appShareLink&portalSessionId=c5a3acea-6214-47b3-b108-f7142b5ad76e)
+
 #### Contact
 
 - [KIPTOO CALEB](https://wa.me/+254702171495)
